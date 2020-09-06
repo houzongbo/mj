@@ -1,1 +1,156 @@
+1. dll加载方式
+动态链接库
+  动态 静态
+  链接时期不同：编译期和运行期
+  静态链接：编译期就将dll链接到文件，体积大。
+  动态链接：在运行期，才进行链接。
+2. 线程池 内存池
+  并发   内存碎片
+3. epoll, poll, select
+  IO多路复用，通过一个描述符，来监控多个io调用，当有io调用事件出触发，就可以让线程来处理。 优点在于节省线程。
+  select有监视描述符数量限制，select和poll都是在事件触发时无法返回具体确认的io描述符，但是epoll会，无需轮训。
+  内核和内存copy交互，epoll只有一次，将就绪的描述符维护在内核的就绪队列上。
+  
+5. stl
 
+6. tcp udp 
+
+8. lt et
+    LT:当描述符就绪时，线程可以先不处理，但是下次调用epoll——wait时再通知，适合阻塞和非阻塞。 触发次数多
+    ET：必须马上处理，否则下次不通知，适用非阻塞。
+    
+    就绪列表中删不删除触发的io事件。
+9. c c++  struct 区别
+   c:不能有函数，变量体的集合。
+   
+10. tcp 序列号，确认号
+  传输中：保证时序性，每次传输接收方成功都会发送确认数据包，确认号就是接收的序列号加上数据包长度。，如果三次错误就会重传。
+  连接时：三次握手 保证链接成功。完成序号的初始化。
+  
+11. get post
+  get 是请求资源，尔post是传输实体。
+  get的参数都在url中，而post参数在实体中。而且get有长度限制。1024kb， get也只能传ASCII字符。
+  get只是读取资源，回退无法对服务器造成改动，而post可以通过实体改变服务器。
+  get 可缓存，post不可。
+  
+  post一般分成两个数据包，一次发header，第二次发data。 get会发header+data。
+14. 微服务
+    单体应用：功能开发打包一起。就像传统客户端与服务器交互，可以负载均衡支持多服务器，cdn加载静态资源。但只是部署进行了优化。
+    代码臃肿，容错性差，开发协作困难。
+    
+    微服务：面向服务的架构思想。
+    1.单一职责的，一个微服务应该都是单一职责的。
+    2. 面向服务的。将自己的业务能力封装并对外提供服务。
+    
+    服务发现：服务注册中心
+    服务配置管理的问题：配置中心
+    
+
+
+17. redis
+  单线程内存型键值数据库，string,set,list,hash,zset. 支持持久化。 
+  与memcache：1持久化，2内存大小 3支持类型
+  内部结构：dic， 跳跃表（多指针链表，能二分查找）
+  过期删除，内存淘汰。
+  
+18. vector, hashmap,lru,shared_ptr,快排，堆排, 快速中位数
+
+int partition(vector<int>& s,int l,int r){
+  int p=s[r],i=l,j=r;
+  while(i<j){
+    while(s[i]<p) ++i;
+    s[j]=s[i];
+    while(s[j]>p) --j;
+    s[i]=s[j];
+  }
+  s[i]=p;
+return i;
+}
+
+void quicksort(vector<int>& s,int l,int r){
+  if(l>=r) return ;
+  int p=partition(s,l,r);
+  quicksort(s,l,p-1);
+  quicksort(s,p+1,r);
+}
+
+void maxheap(vector<int>& s, int i, int size){
+  int l=i*2+1,r=i*2+2,large=i;
+  if(s[l]>s[large]) large=l;
+  if(s[r]>s[large]) large=r;
+  if(large!=i) maxheap(s,large,size)
+}
+
+void buildheap(vector<int>& s,int size){
+  for (int i=size/2;i>=0;--i{
+    maxheap(s,i,size);
+  }
+
+}
+
+19.strcpy,strncpy, memcpy,memmove
+
+  strncpy: 超出count的部分用‘0’补。
+  memmove：对于dst在src后面且有重叠时，要从后往前复制。
+
+20. 高并发tcp
+  第一，tcp链接数量不局限于端口数，而是linux系统最大可打开文件数。ulimit-n 可以查看最大文件数。
+                第一步，修改/etc/security/limits.conf文件，在文件中添加如下行：
+                speng soft nofile 10240
+                speng hard nofile 10240
+                第二步，修改/etc/pam.d/login文件，在文件中添加如下行：
+                session required /lib/security/pam_limits.so
+                第三步，查看Linux系统级的最大打开文件数限制，使用如下命令：
+                [speng@as4 ~]$ cat /proc/sys/fs/file-max
+                12158
+  第二，使用支持高并发网络I/O的编程技术
+  
+  12. 多线程
+
+  13. 设计模式
+  
+  单例模式：
+    确保一个类只有一个实例，并提供该实例的全局访问点。 构造函数private
+    饿汉模式
+    懒汉模式：性能高，但有线程安全问题。 二检锁，静态类对象。
+    
+  观察者模式：
+    定义对象之间的一对多依赖，当一个对象状态改变时，它的所有依赖都会收到通知并且自动更新状态。
+    主题（Subject）具有注册和移除观察者、并通知所有观察者的功能，主题是通过维护一张观察者列表来实现这些操作的。
+    观察者（Observer）的注册功能需要调用主题的 registerObserver() 方法。
+  
+  简单工厂：
+    将实例化操作单独放一个类中，工厂类。将产品类型作为参数，工厂类来操作具体实例化哪个产品实例。
+  工厂方法：
+    将工厂类也抽象化，不同的产品通过不同的工厂来创建实例。
+  抽象工厂模式：
+    工厂方法就已经完成了对工厂类的抽象，但是工厂方法只适用于产品种类单一的情况，一个工厂为一类产品提供借口；但是抽象工厂可以通过一个工厂生产多个产品，有多个产品实例化的接口。
+    
+  生产者-消费者模式：
+    经典的多线程并发协作模式。将生产和消费解藕，通过两种线程以共享内存（内核缓冲区）的方式进行数据交流。
+    通常需要条件变量和mutex来保证线程的同步机制。
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+ 牛客环境
+
+  详细项目
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
