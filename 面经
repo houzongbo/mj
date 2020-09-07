@@ -90,7 +90,7 @@ void buildheap(vector<int>& s,int size){
 
 19.strcpy,strncpy, memcpy,memmove
 
-  strncpy: 超出count的部分用‘0’补。
+  strncpy: 超出count的部分用‘\0’补。
   memmove：对于dst在src后面且有重叠时，要从后往前复制。
 
 20. 高并发tcp
