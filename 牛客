@@ -1,0 +1,108 @@
+1. 数学公式： <math.h>      fabs    sqrt    ceil   floor   
+
+2. 保留小数点：
+  <iomanip>
+      cout<<setiosflags(ios::fixed)<<setprecision(2)<<
+      
+  <stdio.h>  
+  printf("%.2f\n", sum);
+      
+3. 多组输入：
+    while(cin>>   )
+    
+4. 
+
+
+
+
+
+
+
+剑指offer
+
+11. 旋转数组 ：  二分法 （模版）    
+
+int binarySearch(int[] nums, int target) {
+    int left = 0; 
+    int right = nums.length - 1; // 注意
+
+    while(left <= right) {
+        int mid = (right + left) / 2;
+        if(nums[mid] == target)
+            return mid; 
+        else if (nums[mid] < target)
+            left = mid + 1; // 注意
+        else if (nums[mid] > target)
+            right = mid - 1; // 注意
+        }
+    return -1;
+}
+
+
+
+int left_bound(int[] nums, int target) {
+    if (nums.length == 0) return -1;
+    int left = 0;
+    int right = nums.length; // 注意
+    
+    while (left < right) { // 注意
+        int mid = (left + right) / 2;
+        if (nums[mid] == target) {  //这里很重要
+            right = mid;
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            right = mid; // 注意
+        }
+    }
+    return left;
+}
+
+
+
+int right_bound(int[] nums, int target) {
+    if (nums.length == 0) return -1;
+    int left = 0, right = nums.length;
+    
+    while (left < right) {
+        int mid = (left + right) / 2;
+        if (nums[mid] == target) {
+            left = mid + 1; // 注意
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else if (nums[mid] > target) {
+            right = mid;
+        }
+    }
+    return right - 1; // 注意
+}
+
+
+
+   26. 树的子结构  双递归。
+    递归思想，如果根值不同一定不是子结构， 再查左节点和右节点。
+
+}
+
+29. 顺时针打印
+
+30. 包含min 的栈    辅助栈
+        当小于top时入栈，当等于stack时出栈。
+        
+        
+ 31. 压栈 出栈     辅助栈  根据push找pop栈位置   当找到相同的值，pop右移辅助stackpop(). 
+ 
+ 34 后续遍历？    单调栈
+ 
+ 35 链表深复制
+             利用 hashmap
+             
+ *36. 二叉 双向链表    递归    node* & head , node*& pre
+ 
+ 40   top k   用桶排序
+ *36. 二叉 双向链表    递归    node* & head , node*& pre桶排序
+ *36. 二叉 双向链表    递归    node* & head , node*& pre
+
+ 34 后续遍历？    单调栈搜索树
+ 34 后续遍历？    单调栈 双向链表
+ 34 后续遍历？    单调栈
