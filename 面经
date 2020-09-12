@@ -16,7 +16,7 @@
 6. tcp udp 
 
 8. lt et
-    LT:当描述符就绪时，线程可以先不处理，但是下次调用epoll——wait时再通知，适合阻塞和非阻塞。 触发次数多
+    LT:当描述符就绪时，线程可以先不处理，但是下次调用epoll——wait时再通知，适合阻塞和非阻塞。 触发次数多。
     ET：必须马上处理，否则下次不通知，适用非阻塞。
     
     就绪列表中删不删除触发的io事件。
@@ -94,7 +94,7 @@ void buildheap(vector<int>& s,int size){
   memmove：对于dst在src后面且有重叠时，要从后往前复制。
 
 20. 高并发tcp
-  第一，tcp链接数量不局限于端口数，而是linux系统最大可打开文件数。ulimit-n 可以查看最大文件数。
+  第一，tcp连接数量不局限于端口数，而是linux系统最大可打开文件数。ulimit-n 可以查看最大文件数。
                 第一步，修改/etc/security/limits.conf文件，在文件中添加如下行：
                 speng soft nofile 10240
                 speng hard nofile 10240
@@ -103,7 +103,7 @@ void buildheap(vector<int>& s,int size){
                 第三步，查看Linux系统级的最大打开文件数限制，使用如下命令：
                 [speng@as4 ~]$ cat /proc/sys/fs/file-max
                 12158
-  第二，使用支持高并发网络I/O的编程技术
+  第二，使用支持高并发网络I/O的编程技术，非阻塞io，io多路复用。
   
   12. 多线程
 
@@ -134,21 +134,70 @@ void buildheap(vector<int>& s,int size){
     
     
     
+ 14. 常用协议，端口号。
+      http:   80   tcp
+      https:  443  tcp
+      dns:    53   udp
+      ftp:    21(控制连接） 20 （数据连接） tcp
+      telnet：23    tcp
+      
+ 15. 如何让udp可靠
+ 
+    三种可靠等级：尽力可靠，无序可靠，有序可靠。
+    tcp缺点：速度慢，网络环境要求高，延迟问题；3次握手，4次挥手 占用资源； 重传占用带宽
+    
+    核心：
+        重传模式：超时重传，请求重传，FEC选择重传。
+                
+                1 超时重传：依赖于ack回复，等待rto时间。  
+                2 请求重传：接收端发送是ack时附带上丢失的报文信息。 序号
+                3. FEC选择重传：前向纠错技术，在发送端将报文进行FEC分组，在接收端丢包能根据FEC分组算法还原。
+                
+      rto=srtt+srtt_var
+      
+        窗口与拥塞控制：避免带宽占用过高
+        
+ 16. 大量time_wait 怎么解决  （端口占用）
+ 
+ 服务器关闭连接后，客户端还会在发送确认后等待time_wait时间，造成大量time_wait占用socket。后面的客户端可能连接不上。（端口号占用）65535
+ 尤其在高并发短连接问题大。 
+ 
+      1 Time_wait连接复用       sysctl.conf      tcp_tw_reuse=1
+      客户端再次向同一个服务器发起连接时，复用之前 tw的连接。    （短连接不断重连）
+      
+      2. Time_wait连接回收   tcp_tw_recycle=1
+      内核快速回收socket，（rto） 将socket销毁。
+      
+      
+      3. tcp_timestamps=1  
+      保存两个时间，1个是发送数据包的时间，1个是最近接收数据包的时间。 reuse 和recycle依赖于timestemp
+      
+      
+      
+ 17 socket:
+   五元组：源ip，源端口，目的ip，目的端口，类型。
     
     
     
+  18. static 在类外初始化；
+      const 在构造函数中初始化
+      static const 可以直接类内初始化
     
-    
-    
-    
- 牛客环境
+19. 拷贝构造函数：&   左值引用
+    移动构造函数：&&  右值引用  通常和move搭配
 
-  详细项目
+
+21。 RTTI 运行时类型识别： typeid， dynamic_cast
+                      带虚函数在运行期识别，不带在编译期识别。
   
   
+  22. decltype   auto
   
   
+  23. c++ 11 新特性 ： 智能指针，移动语意，stl容器，auto关键字，lambda表达式
   
+  24. linux实现系统调用：
+      软中断。  产生一个异常，导致cpu会切换到内核态去处理异常，而异常处理函数就是系统调用函数。
   
   
   
