@@ -199,7 +199,12 @@ void buildheap(vector<int>& s,int size){
   24. linux实现系统调用：
       软中断。  产生一个异常，导致cpu会切换到内核态去处理异常，而异常处理函数就是系统调用函数。
   
+  25. shared_ptr 线程安全问题
   
+      当多线程读写shared_ptr 指向的同一个对象时，可能会发生竞态。 需要加互斥锁来保护。
+      
+      std::mutex m;
+      unique_lock<mutex> lock(m);
   
   
   
