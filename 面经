@@ -560,3 +560,39 @@ void buildheap(vector<int>& s,int size){
         内存泄漏排查：linux： valgrind
 
 
+75. 海量数据 ， 内存有限 排序：
+    
+    多路归并：分治策略，将数据分成多组，分别在内存中排序； 在通过中间数组来多路合并。
+              内存中维护一个数组，大小为分组数。每次都将组中的最小值放进去，进行数据交换。
+              
+
+76. c++ 类型强转：
+    1. const_cast：将const转为non_const。
+                  volatile：告诉编译器不要做缓存优化，每次进入内存读数据。可通过 const volatile 改const值
+    2. static_cast: 用于隐式转换，可将non_const转为const； 有安全隐患，类型不安全，可以将基类指针转为派生类指针。
+                    
+    3. dynamic_cast：安全向下转型， 基类指针转为派生类，类似虚函数会用RTTI运行期检查类型，确认动态类型。
+    
+    4. reinterpret_cast：低级转型，可以将 int指针转为int，不常用。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
