@@ -607,9 +607,21 @@ void buildheap(vector<int>& s,int size){
 
 
 
-
-
-
+80. socket函数：
+    
+      socket(family, type)  协议族， 套接字类型。
+      
+      connect(sockfd, servaddr, addrlen)   套接字描述符， 服务器地址， 地址结构    三次握手完成连接
+      
+      bind(sockfd, addr )  绑定端口 ip
+      
+      listen(sockfd, backlog)  
+      将主动套接字转为被动监听套接字
+      维护两个队列， 一个connect队列， 一个accept队列。
+                                队列之和不能超过backlog
+       accept(sockd, cliaddr) 利用监听套接字， 从accept队列取出一个连接                      
+ 
+       close()
 
 
 
