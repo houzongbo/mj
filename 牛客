@@ -129,7 +129,7 @@ int right_bound(int[] nums, int target) {
 
 
 
-46 数字-》字符串   dp[i]=dp[i-1]+dp[i-2]
+46 数字->字符串   dp[i]=dp[i-1]+dp[i-2]
 
 
 49 丑数， 动态规划    p2, p3, p5     dp[i]=min(dp[p2]*2,dp[p3]*3,dp[p5]*5);
@@ -142,6 +142,16 @@ int right_bound(int[] nums, int target) {
 53. 经典二分查找    l=i;   r=j;                                                                 
 
 
+56. 数组中出现 两个数没出现2次：  找到两者异或值， 再找 最近的位值为一。
+
+57. 和为s 连续正数序列：
+      i=1, j=2;    sum=(i+j)*(j-i+1)/2;       
+
+
+
+
+
+
 
 leetcode：
       23. 合并升序链表
@@ -149,6 +159,9 @@ leetcode：
        
        22. 括号生成：
           
+       33. 旋转排序数组
+       
+       
       36. 数独：   利用哈希表
                     row[9][9]    col[9][9]   box[9][9]
                     row[i][n]=1;     col[j][n]=1;   box[(i/3)*3+j/3][n]=1;
