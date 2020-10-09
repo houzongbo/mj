@@ -79,6 +79,7 @@ Redis：基于内存存储的key-value数据库，常用与分布式缓存。可
             将修改数据库，删除缓存，读缓存放队列里按顺序实现。
     11. raft选举算法：
         每个节点状态：leader，follower，candidate
+        每个leader都有任期term。
       启动时都是follower，在一段时间（选举超时时间）没有收到leader心跳，会切换到candidate状态进行选举，得票多的成为leader。
       leader会不停发心跳信息。
       投票选举： follower一段时间收不到心跳，转为candidate，先给自己投一票，再向其他节点发选举请求。
