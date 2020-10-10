@@ -166,7 +166,7 @@ int right_bound(int[] nums, int target) {
 
 leetcode：
       
-      22. 括号生成： 回溯法，open < n，close <open  分别对左右括号进行回溯。
+      *22. 括号生成： 回溯法，open < n，close <open  分别对左右括号进行回溯。
       
       23. 合并升序链表
           分治归并，类似归并排序。
@@ -211,7 +211,7 @@ leetcode：
         
         *88. 原地合并两数组： 从后往前， 双指针。
         
-        *91 数字转字符串
+        *91 数字转字符串:  多考虑0的情况
         
         
         *94. 二叉树遍历  递归版   借助stack
@@ -323,4 +323,41 @@ leetcode：
             **328. 奇偶链表：
                           链表迭代，每次记录当前节点和下一个节点， 再分别更新next；
             
-          
+           /*329. 矩阵中最长递增路径：
+           
+           *334. 递增的三元子序列：    用两个变量s，m表示最小的值，和中间值。
+                                      每次迭代，分别对比s和m进行更新操作。
+                                      
+            *347. 前k高频元素： 堆排序，和hashmap
+                      priority_queue<pair<int,int>, vector<pair<int,int>>, less<pair<int,int>>>
+
+             *371. 整数之和：  二进制，位运算。 *注意需要用unsigned() 来避免负数影响。
+                              int t=a;
+                              a=unsigned(a&b) <<1;
+                              b=t^b;
+                              
+             *378. 有序矩阵第k小元素：   二分搜索，辅助函数 bool check(matrix, mid,k )  
+                                                                    return num>=k;
+                                        *从左下角开始，记录小于等于mid的列数*当前行；
+                                        
+             387. 字符串第一个唯一字符：  哈希表，优化成字符数组。
+             
+             /**395. 至少k个重复字符的最长子串：   hashmap 辅助找到小于k的下标，再根据下标递归寻找
+                                                          if(n>ans)
+                                                          ans=max(ans, longest(s.substr(l,n),k) );
+                      
+             
+              **454. 四数之和II： 哈希表， 将四个数组分成两半，对一半进行hash，另一半进行判断
+
+
+
+
+
+
+
+
+
+
+
+
+
