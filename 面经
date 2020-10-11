@@ -918,9 +918,17 @@ void buildheap(vector<int>& s,int size){
                      2. 头文件不能实现函数，尤其是不能使用对方的成员
                      3. 用代码文件去实现函数。
                      
-                     
+115. utf-8 和 utf-16:
+       字符编码方式， 一个字节，8比特位 表示一个可变长字符，保留了 ASCII编码；
+                     两字节，16比特位；
 
 
+116. linux下内存泄漏检测： valgrind 检查 malloc和 free，  new 和delete是否匹配。
+
+
+117. 浮点数求平方根：
+          去一个小double阈值 e=0.000001；
+              while((r-l)>e){  m=(l+r)/2;  if(m*m>x) r=m; else l=m;      }
 
 
 
