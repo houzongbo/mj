@@ -931,9 +931,12 @@ void buildheap(vector<int>& s,int size){
               while((r-l)>e){  m=(l+r)/2;  if(m*m>x) r=m; else l=m;      }
 
 
+118. c++ open(), close():
+        没close坏处： 当程序崩溃时， 之前的读写可能全部造成失效。
+        
 
-
-
+119. TCP粘包解决：
+        在字节数据流内容中， 自定义数据包头， 包含数据包长度
 
 
 
