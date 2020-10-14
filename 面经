@@ -939,6 +939,8 @@ void buildheap(vector<int>& s,int size){
         在字节数据流内容中， 自定义数据包头， 包含数据包长度
 
 
+120. vector:  insert:  (iterator, int n, Type t)   都是对迭代器进行处理
+              erase:
 
-
-
+121. 查看数据库查询是否用到索引：
+              explain
