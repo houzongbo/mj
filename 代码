@@ -1,0 +1,640 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <list>
+using namespace std;
+
+
+   选择排序
+void selectsort(vector<int>& nums){
+    int n=nums.size();
+    
+    for(int i=0;i<n;++i){
+        int k=i;
+        for (int j=i+1;j<n;++j){
+            if(nums[j]<nums[k]){
+                k=j;
+            }
+            
+        }
+        swap(nums[i],nums[k]);
+    }
+}
+
+   插入排序
+void insertsort(vector<int>& nums){
+    int n=nums.size();
+    
+    for(int i=1;i<n;++i){
+        int k=i;
+        for(int j=i-1;j>=0;--j){
+            if(nums[j]>nums[k]){
+                swap(nums[j],nums[k]);
+                k=j;
+            }
+            else{
+                break;
+            }
+        }
+    }
+}
+
+冒泡排序
+void bubblesort(vector<int>& nums){
+    int n=nums.size();
+    
+    for(int i=1;i<n;++i){
+        for(int j=0;j<n-i;++j){
+            if(nums[j+1]<nums[j]){
+                swap(nums[j],nums[j+1]);
+            }
+        }
+    }
+}
+
+ 快排
+int partition(vector<int>& nums, int l, int r){
+    int p=nums[r];
+    
+    //int i=l, j=r;
+    while(l<r){
+        while(l<r && nums[l]<=p){
+            l++;
+        }
+        nums[r]=nums[l];
+        while(l<r && nums[r]>=p){
+            r--;
+        }
+        nums[l]=nums[r];
+    }
+    nums[l]=p;
+    return l;
+    
+}
+
+void quicksort(vector<int>& nums, int l, int r){
+    if(l>=r) return;
+    
+    int p=partition(nums, l, r);
+    quicksort(nums,l,p-1);
+    quicksort(nums,p+1,r);
+    
+}
+
+
+堆排
+void maxheap(vector<int>& nums, int i, int size ){
+    int l=2*i+1, r=2*i+2, large=i;
+    
+    if(l<size && nums[l]>nums[large]) large=l;
+    if(r<size && nums[r]>nums[large]) large=r;
+    
+    if(large!=i){
+        swap(nums[large],nums[i]);
+        maxheap(nums, large,size);
+    }
+}
+
+void buildheap(vector<int>& nums, int size){
+    for(int i=size/2;i>=0;--i){
+        maxheap(nums,i,size);
+    }
+}
+
+
+归并排序
+void merge(vector<int>& nums, int l, int m, int r){
+    vector<int> t;
+    for(int i=l;i<=r;++i){
+        t.push_back(nums[i]);
+    }
+    
+    int left=l, right=m+1;
+    
+    for(int i=l;i<=r;++i){
+        if(right>r) {
+            nums[i]=t[left-l];
+            left++;
+        }
+        else if(left>m){
+            nums[i]=t[right-l];
+            right++;
+        }
+        else if(t[left-l]<=t[right-l]){
+            nums[i]=t[left-l];
+            left++;
+        }
+        
+        else{
+            nums[i]=t[right-l];
+            right++;
+        }
+        
+    }
+}
+
+void mergesort(vector<int>& nums, int l, int r){
+    if(l>=r) return ;
+    int m=(l+r)/2;
+    
+    mergesort(nums,l, m);
+    mergesort(nums, m+1, r);
+    merge(nums,l,m,r);
+    
+    
+}
+
+
+vector数组实现
+
+class mvector{
+public:
+    mvector() :data(new int[10]), size(0), capacity(10){}
+    
+    mvector(int t): data(new int[2*t]), size(t),capacity(2*t){}
+    
+    
+    mvector(const mvector& v){
+        capacity=v.capacity;
+        data=new int[capacity];
+        for(int i=0;i<v.size;++i){
+            data[i]=v[i];
+        }
+        size=v.size;
+    }
+    
+    mvector& operator=(const mvector& v){
+        if(this==&v) return *this;
+        delete[] data;
+        capacity=v.capacity;
+        data=new int[capacity];
+        
+        for(int i=0;i<v.size;++i){
+            data[i]=v[i];
+        }
+        size=v.size;
+        return *this;
+        
+    }
+    
+    ~mvector(){
+        delete[] data;
+        
+    }
+    
+    void push_back(int i){
+        if(size==capacity){
+            resize(2*capacity);
+        }
+        data[size]=i;
+        size++;
+    }
+    
+    int pop_back(){
+        int t=data[size-1];
+        size--;
+        if(size==capacity/4){
+            resize(capacity/2);
+        }
+    }
+    
+    int& operator[](int i){
+        return data[i];
+    }
+    
+    int size_(){
+        return size;
+    }
+    
+    
+private:
+    int* data;
+    int size;
+    int capacity;
+    
+    void resize(int t){
+        int * n=new int[t];
+        for(int i=0;i<size;++i){
+            n[i]=data[i];
+        }
+        capacity=t;
+        delete[] data;
+        data=n;
+    }
+};
+
+
+hashmap哈希表实现
+//class node{
+//public:
+//    string key;
+//    string val;
+//    node(string k, string v) :key(k), val(v) {}
+//};
+
+
+class hashmap{
+public:
+    hashmap(): data(hashsize){}
+    
+    int hashfunc(string k){
+        int hashval=0;
+        int seed=31;
+        
+        for(char &c: k){
+            hashval+= c*seed;
+        }
+        
+        return hashval%hashsize;
+    }
+    
+    void insert(node* n){
+        int hashval=hashfunc(n->key);
+        list<node*> l=data[hashval];
+        auto iter=l.begin();
+        for(; iter!=l.end();++iter){
+            if ((*iter)->key==n->key){
+                (*iter)->val=n->val;
+                return;
+            }
+        }
+        if(iter==l.end()){
+            l.push_back(n);
+        }
+        
+        
+    }
+    
+    node* getnode(string k){
+        int hashval=hashfunc(k);
+        list<node*> l=data[hashval];
+        
+        for(auto iter=l.begin();iter!=l.end();++iter){
+            if((*iter)->key==k){
+                return *iter;
+                
+            }
+            
+        }
+        
+        return nullptr;
+    }
+    
+    
+    bool erase(string k){
+        int hashval=hashfunc(k);
+        list<node*> l=data[hashval];
+        
+        for(auto iter=l.begin(); iter!=l.end();++iter){
+            if((*iter)->key==k){
+                l.erase(iter);
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    
+    void clear(){
+        data=move( vector<list<node*>>(hashsize)  );
+    }
+    
+    node* operator[](string k){
+        return getnode(k);
+    }
+    
+private:
+    vector<list<node*>> data;
+    static const int hashsize;
+};
+
+
+字符串实现
+
+class mstring{
+public:
+    mstring(): data(new char[1]), length(0){
+        *data='\0';
+    }
+    
+    mstring(const char* str){
+        length=strlen(str);
+        data=new char[length+1];
+        strcpy(data,str);
+    }
+    
+    
+    mstring (const mstring& str){
+        length=str.size();
+        data=new char[length+1];
+        strcpy(data, str.c_str());
+    }
+    
+    ~mstring (){
+        delete[] data;
+        
+    }
+    
+    mstring& operator=(const mstring& str){
+        if(this==&str){
+            return *this;
+        }
+        
+        delete[] data;
+        length=str.size();
+        data=new char[length+1];
+        strcpy(data,str.c_str());
+    }
+    
+    mstring operator+(const mstring& str){
+        mstring n;
+        n.length=length+str.size();
+        n.data=new char[length+1];
+        
+        strcpy(n.data,data);
+        strcat(n.data, str.c_str());
+        return n;
+        
+    }
+    
+    mstring& operator+=(const mstring& str){
+        length+=str.size();
+        char* n=new char[length+1];
+        strcpy(n,data);
+        strcat(n,str.c_str());
+        delete[] data;
+        data=n;
+        
+        return *this;
+    }
+    
+    char& operator[](int i){
+        return data[i];
+    }
+    
+    const char* c_str() const{
+        return data;
+    }
+    
+    int size() const{
+        return length;
+    }
+    
+    
+private:
+    char* data;
+    int length;
+};
+
+
+
+
+
+char* strcpy(char* dst, const char* src){
+    char* d=dst;
+    
+    while((*dst++=*src++)!='\0'){}
+    
+    return d;
+}
+
+char* strncpy(char* dst, const char* src, int n){
+    char* d=dst;
+    
+    while(n-- && (*dst++=*src++)!='\0' ){}
+    while(n--){
+        *dst++='\0';
+    }
+    return d;
+}
+
+char* strcat(char* dst, const char* src){
+    char* d=dst;
+    
+    while((*dst++)!='\0') {}
+    while((*dst++=*src++)!='\0'){}
+    
+    return d;
+}
+
+
+
+void* memcpy(void* dst, void* src, int n){
+    if(!dst || ! src) return nullptr;
+    
+    char* d=(char*) dst;
+    char* s=(char*) src;
+    
+    while(n--){
+        *d++=*s++;
+    }
+    
+    return dst;
+}
+
+void* memmove(void* dst, void* src, int n){
+    if(!dst || ! src) return nullptr;
+    
+    char* d=(char*) dst;
+    char* s=(char*) src;
+    
+    if(d>s && d<s+n){
+        while(n--){
+            *(d+n)=*(s+n);
+        }
+    }
+    
+    else{
+        while(n--){
+            *d++=*s++;
+        }
+    }
+    
+    return dst;
+    
+}
+
+
+
+sharep_ptr 智能指针实现
+template<typename T>
+class mshared_ptr{
+public:
+    mshared_ptr(T* p): ptr(p),count(new int(1)){}
+    
+    
+    mshared_ptr(const mshared_ptr& mptr){
+        ptr=mptr.ptr;
+        count=mptr.count;
+        (*count)++;
+    }
+                            
+    ~mshared_ptr(){
+        (*count)--;
+        if(*count==0){
+            delete ptr;
+            delete count;
+        }
+    }
+    
+    mshared_ptr& operator=(const mshared_ptr& mptr){
+        if(this==&mptr) return *this;
+        
+        (*count)--;
+        if(*count==0){
+            delete ptr;
+            delete count;
+        }
+        
+        ptr=mptr.ptr;
+        count=mptr.count;
+        (*count)++;
+        
+        return *this;
+    }
+    
+    T& operator*(){
+        return *ptr;
+    }
+    
+    T* operator->(){
+        return ptr;
+    }
+    
+    T* get(){
+        return ptr;
+    }
+        
+    int getcount(){
+        return *count;
+    }
+    
+    
+private:
+    T* ptr;
+    int *count;
+};
+
+
+LRU 实现：
+
+class node{
+public:
+    int key;
+    int val;
+    node* next;
+    node* pre;
+    node(int k ,int v) : key(k), val(v), next(nullptr), pre(nullptr){}
+};
+
+class LRU{
+public:
+    LRU(int c) size(0), capacity(c){
+        head=new node(0,0);
+        tail=new node(0,0);
+        head->next=tail;
+        tail->next=head;
+    }
+    
+    void put(int k, int v){
+        if(hash.count(k)){
+            hash[k]->val=v;
+            movetohead(hash[k]);
+        }
+        else{
+            node* n=new node(k,v);
+            addtohead(n);
+            hash[k]=n;
+            size++;
+            if(size>capacity){
+                node* r=removetail();
+                hash.erase(r->key);
+                size--;
+                delete r;
+            }
+        }
+    }
+    
+    int get( int  k){
+        if(!hash.count(k)){
+            return -1;
+        }
+        else{
+            int ans=hash[k]->val;
+            movetohead(hash[k]);
+            
+            return  ans;
+        }
+    }
+    
+    
+    void addtohead(node* n){
+        head->next->pre=n;
+        n->next=head->next;
+        n->pre=head;
+        head->next=n;
+    }
+    
+    void removenode(node* n){
+        n->pre->next=n->next;
+        n->next->pre=n->pre;
+    }
+    
+    void movetohead(node* n){
+        removenode(n);
+        addtohead(n);
+    }
+    
+    node* removetail(){
+        node* n=tail->next;
+        removenode(n);
+        return n;
+        
+        
+    }
+    
+    
+private:
+    int size;
+    int capacity;
+    unordered_map<int,node*> hash;
+    node* head;
+    node* tail;
+};
+
+
+
+线程安全单例：
+//class singleton{
+//public:
+//    static singleton* instance(){
+//        if(p==nullptr){
+//            unique_lock<mutex> lock(mtx);
+//            if(p==nullptr){
+//                p=new singleton();
+//            }
+//        }
+//        return p;
+//    }
+//
+//private:
+//    static singleton* p;
+//    static mutex mtx;
+//    singleton(){}
+//};
+
+class singleton{
+public:
+    static singleton* instance(){
+        unique_lock<mutex> lock(mtx);
+        static singleton ins;
+        return &ins;
+    }
+    
+private:
+    singleton(){}
+    static mutex mtx;
+    
+};
