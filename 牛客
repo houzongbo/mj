@@ -180,6 +180,10 @@ leetcode：
        
        *28. strstr（）  字符串匹配， kmp算法
           
+          
+       **32. 最长有效括号：  栈思想 
+                  
+          
        33. 旋转排序数组:
             
             二分查找， nums[m]==target;
@@ -228,7 +232,7 @@ leetcode：
         
             *后序遍历: 额外需要 pre节点记录可能的右节点
         
-        *zsh‘’* 98  验证二插搜索树： dfs（） 记录并根据left和right更新 最小值和最大值
+        * 98  验证二插搜索树： dfs（） 记录并根据left和right更新 最小值和最大值
                         
         104. 二叉树最大深度：可以用递归。 
         
@@ -239,7 +243,7 @@ leetcode：
                                           还要判断是否 node->next :  行内换节点。
         
         
-        *127. 单词接龙： bfs思想    unordered_set, 对每个字母进行a到z替换    再进行回溯。
+        *127. 单词接龙： bfs思想    unordered_set,queue<pair> 对每个字母进行a到z替换    再进行回溯。
                                                  *每次回溯要记得在set中erase掉现在的string
         
         *128.  最长连续序列:  unordered_set,  先找左边界， 再一个一个往右侧查找。
@@ -278,7 +282,7 @@ leetcode：
           
           *152. 乘积最大数组： 记录 ans，min和max  动态规划，每次更新min和max, ans=max(ans,max)
           
-          *162. 寻找峰值： 二分查找模板
+          *162. 寻找峰值： 二分查找模板 l<r   m>m+1: r=m  else: l=m+1
           
           /*166. 分数化小数：
           
