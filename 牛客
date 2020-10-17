@@ -10,7 +10,7 @@
 3. 多组输入：
     while(cin>>   )
     
-4. stoi: 字符串转int数字
+4. stoi: 字符串转int数字  <limits.h>
 
 5. to_string: 数字转字符串
 
@@ -171,6 +171,9 @@ leetcode：
 
 leetcode：
       
+      /*4 正序数组中位数   双指针法
+      
+      
       *22. 括号生成： 回溯法，open < n，close <open  分别对左右括号进行回溯。
       
       23. 合并升序链表
@@ -180,7 +183,10 @@ leetcode：
        
        *28. strstr（）  字符串匹配， kmp算法
           
-          
+        
+       **31 下一个排列： 从后往前找到第一个正序组，记录位置n，  从n往后reverse
+                
+        
        **32. 最长有效括号：  栈思想 
                   
           
@@ -231,12 +237,24 @@ leetcode：
         *94. 二叉树遍历  递归版   借助stack
         
             *后序遍历: 额外需要 pre节点记录可能的右节点
+            
+            
+        *96. 不同的二插搜索树：  动态规划， dp[i]+= dp[i-j]*dp[j-1]
         
         * 98  验证二插搜索树： dfs（） 记录并根据left和right更新 最小值和最大值
                         
         104. 二叉树最大深度：可以用递归。 
         
         *108. 有序数组转化二插搜索树： 类似二分法， 借助left，right 取中点mid， 进行递归。
+        
+        
+        **114. 二叉树展开为链表：  while(root) if(root->left) pre=root->left;
+                                当节点有左节点时，记录为pre节点，再循环找右节点。
+                                最后更新 pre->right=root->right;
+                                        root->right=root->left;
+                                        root->left=nullptr;
+                                  
+                
         
         116. 填充右侧节点： 有空间O(1) 做法， 直接 Node->left->next= node->right
                                           记录最左节点，为换行做准备。
