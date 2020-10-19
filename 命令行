@@ -185,7 +185,15 @@ lsof：列出当前系统打开文件，linux环境任何事物都是文件（�
             -s 时间间隔
           
 
-        
+查看网络端口进程 netstat：
+                    -a连接的socket  -t tcp   -u udp   -n直接使用ip地址   -l listen监控
           
-          
+
+配置网络接口 ifconfig：
+                        连接类型  mac  ip  子网  掩码
+
+
+
+
+
           
