@@ -300,7 +300,9 @@ leetcode：
           
           *152. 乘积最大数组： 记录 ans，min和max  动态规划，每次更新min和max, ans=max(ans,max)
           
-          *162. 寻找峰值： 二分查找模板 l<r   m>m+1: r=m  else: l=m+1
+          **162. 寻找峰值： 二分查找模板 l<r   m>m+1: r=m  else: l=m+1
+          
+          
           
           /*166. 分数化小数：
           
