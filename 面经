@@ -1134,7 +1134,8 @@ void buildheap(vector<int>& s,int size){
                   域名解析时使用udp  一般内容不超过512字节
 
 
-
+146. bss 和data之间区别：
+        bss未初始化，只有占位符，暂时没有提供物理内存， 只是全零页。  不占用可执行文件空间
 
 
 
