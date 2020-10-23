@@ -99,7 +99,7 @@ int right_bound(int[] nums, int target) {
              
  **36. 二叉 双向链表    递归配合中序遍历    node* & head , node*& pre
  
- 40   top k   用桶排序
+ 40   top k   用堆排序
 
 
 13. 机器人运动范围：写一个辅助函数，获取位的和
